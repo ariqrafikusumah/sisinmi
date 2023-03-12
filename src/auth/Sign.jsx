@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Form, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
-import { FaUserAlt, FaUserLock } from "react-icons/fa";
-import { auth, db } from '../firebase';
+import React, { useState } from 'react';
+import { Button, Form, FormControl, FormGroup, FormLabel } from 'react-bootstrap'
+import { FaUserAlt, FaUserLock } from "react-icons/fa"
 
 function Sign() {
     const [email, setEmail] = useState('');
