@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, FormControl, FormGroup, FormLabel } from 'react-bootstrap'
 import { FaUserAlt, FaUserLock } from "react-icons/fa"
-import { db } from '../database/firebase';
-import { auth } from '../database/firebase';
+import { db, auth } from '../database/firebase';
 
 function Sign() {
     const [email, setEmail] = useState('');
@@ -11,16 +10,16 @@ function Sign() {
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
             if (user) {
-                db.collection('users').doc(user.email).get().then((doc) => {
-                    const role = doc.data().role;
+                db.ref(`users/${user.uuid}`).once('value', (snapshot) => {
+                    const role = snapshot.val().role;
                     if (role === 'admin') {
-                        window.location.href = '/admin';
+                        window.location.href = '/HomeAdmin';
                     } else if (role === 'baak') {
-                        window.location.href = '/baak';
+                        window.location.href = '/HomeBaak';
                     } else if (role === 'dosen') {
-                        window.location.href = '/dosen';
+                        window.location.href = '/HomeDosen';
                     } else if (role === 'kaprodi') {
-                        window.location.href = '/kaprodi';
+                        window.location.href = '/HomeKaprodi';
                     }
                 });
             }
@@ -34,6 +33,7 @@ function Sign() {
                 alert(error.message);
             });
     };
+
     return (
         <>
             <div>

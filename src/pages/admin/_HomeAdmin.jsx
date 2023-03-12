@@ -3,7 +3,9 @@ import React from 'react'
 function _HomeAdmin() {
     return (
         <>
-            Home admin
+            <div>
+                Home Admin
+            </div>
         </>
     )
 }
