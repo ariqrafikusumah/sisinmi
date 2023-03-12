@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Button, Form, FormControl, FormGroup, FormLabel } from 'react-bootstrap'
-import { FaUserAlt, FaUserLock } from "react-icons/fa"
+import React, { useState, useEffect } from 'react';
+import { Button, Form, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
+import { FaUserAlt, FaUserLock } from "react-icons/fa";
+import { auth, db } from '../firebase';
 
 function Sign() {
     const [email, setEmail] = useState('');
@@ -9,7 +10,7 @@ function Sign() {
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
             if (user) {
-                db.firestore().collection('users').doc(user.email).get().then((doc) => {
+                db.collection('users').doc(user.email).get().then((doc) => {
                     const role = doc.data().role;
                     if (role === 'admin') {
                         window.location.href = '/admin';
@@ -52,18 +53,14 @@ function Sign() {
                                         <FormLabel className='font-bold text-white'>
                                             <FaUserAlt className='w-5' /> E-mail
                                         </FormLabel>
-                                        <FormControl className="" type='email' placeholder="Enter Email" />
                                         <FormControl className="" type='email' placeholder="Enter Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                                     </FormGroup>
-                                    <FormGroup className='mb-3' controlId='Password'>
+                                    <FormGroup className='mb-3' controlId='password'>
                                         <FormLabel className='font-bold text-white'>
                                             <FaUserLock className="w-5" /> Password
                                         </FormLabel>
-                                        <FormControl className="" type='Password' placeholder="Enter Password" />
+                                        <FormControl className="" type='Password' placeholder="Enter Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                                     </FormGroup>
-                                    <Button type='submit'>Login</Button>
-
-                                    <FormControl className="" type='Password' placeholder="Enter Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                                     <Button type='submit'>Login</Button>
                                 </Form>
                             </div>
@@ -75,4 +72,4 @@ function Sign() {
     )
 }
 
-export default Sign
+export default Sign;
