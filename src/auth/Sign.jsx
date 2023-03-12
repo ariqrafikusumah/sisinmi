@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Form, FormControl, FormGroup, FormLabel } from 'react-bootstrap'
 import { FaUserAlt, FaUserLock } from "react-icons/fa"
+import { db } from '../database/firebase';
+import { auth } from '../database/firebase';
 
 function Sign() {
     const [email, setEmail] = useState('');
