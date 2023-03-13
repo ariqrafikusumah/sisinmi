@@ -1,39 +1,9 @@
-import React, { useState, useEffect } from 'react';
+
+import React from 'react';
 import { Button, Form, FormControl, FormGroup, FormLabel } from 'react-bootstrap'
 import { FaUserAlt, FaUserLock } from "react-icons/fa"
-import { db, auth } from '../database/firebase';
 
 function Sign() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-    useEffect(() => {
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                db.ref(`users/${user.uuid}`).once('value', (snapshot) => {
-                    const role = snapshot.val().role;
-                    if (role === 'admin') {
-                        window.location.href = '/HomeAdmin';
-                    } else if (role === 'baak') {
-                        window.location.href = '/HomeBaak';
-                    } else if (role === 'dosen') {
-                        window.location.href = '/HomeDosen';
-                    } else if (role === 'kaprodi') {
-                        window.location.href = '/HomeKaprodi';
-                    }
-                });
-            }
-        });
-    }, []);
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        auth.signInWithEmailAndPassword(email, password)
-            .catch((error) => {
-                alert(error.message);
-            });
-    };
-
     return (
         <>
             <div>
@@ -49,18 +19,18 @@ function Sign() {
                             </div>
 
                             <div className='grid grid-cols-1'>
-                                <Form onSubmit={handleSubmit} >
+                                <Form>
                                     <FormGroup className='mb-3' controlId='email'>
                                         <FormLabel className='font-bold text-white'>
                                             <FaUserAlt className='w-5' /> E-mail
                                         </FormLabel>
-                                        <FormControl className="" type='email' placeholder="Enter Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                        <FormControl className="" type='email' placeholder="Enter Email"/>
                                     </FormGroup>
                                     <FormGroup className='mb-3' controlId='password'>
                                         <FormLabel className='font-bold text-white'>
                                             <FaUserLock className="w-5" /> Password
                                         </FormLabel>
-                                        <FormControl className="" type='Password' placeholder="Enter Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                        <FormControl className="" type='Password' placeholder="Enter Password" />
                                     </FormGroup>
                                     <Button type='submit'>Login</Button>
                                 </Form>
